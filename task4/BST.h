@@ -17,7 +17,6 @@ namespace BST {
 	private:
 		Node<T> * _root; // указатель на корневой узел
 
-		// friend class boost::serialization::access;
 		// Удаление узла
 		void deleteNode(Node<T>* p);
 
@@ -39,22 +38,6 @@ namespace BST {
 
 		// Разворачивание дерева в вектор 
 		void prepare(Node<T> * node, std::vector<T> & temp) const;
-		// void prepare(Node<T> * node);
-		
-		//template<class Archive>
-		//void save(Archive & ar, const unsigned int version) const
-		//{
-		//	prepare();
-		//	ar & vine;
-		//}
-		//template<class Archive>
-		//void load(Archive & ar, const unsigned int version)
-		//{
-		//	ar & vine;
-		//	for (auto i = vine.begin(); i != vine.end(); i++)
-		//		insert(*i);
-		//}
-		//BOOST_SERIALIZATION_SPLIT_MEMBER()
 
 		//Удаление всех узлов
 		void cleanup(Node<T> * node);	

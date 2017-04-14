@@ -28,9 +28,9 @@ std::istream & comp::operator >> (std::istream & in, Stationary & item)
 	in >> dynamic_cast<CalcMachine&>(item);
 
 	do
-	{
-		item.validator.checkedNumericalInput(item.displaySize, "Input  display size in inches: ");
-	} while (item.displaySize < 0);
+		item.validator.checkedNumericalInput(item.displaySize,
+			"Input  display size in inches: ");
+    while (item.displaySize < 0 || item.displaySize > 100);
 	item.brand = item.validator.localizedCheck("Input brand: ");
 
 	return in;

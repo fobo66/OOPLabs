@@ -168,7 +168,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextFile.h" />
     <ClInclude Include="Type.h" />
-    <ClInclude Include="util.h" />
     <ClInclude Include="Validator.h" />
   </ItemGroup>
   <ItemGroup>

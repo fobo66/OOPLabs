@@ -23,7 +23,7 @@ public:
 			{
 				std::cout << "\n" << description;
 				std::cin >> param;
-				if (std::cin.good())
+				if (!(std::cin.good()))
 					std::cin.ignore(INT_MAX, '\n');
 				else
 					throw NumberException("Incorrect number");
