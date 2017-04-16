@@ -11,30 +11,58 @@ void BST::TreeIterator<T>::postorder(Node<T>* node)
         if (node->right != nullptr)
 		  postorder(node->right);
         
-		this->keys.push(node->key);
+		this->keys.push_back(node->key);
 	}
 }
 
 template<class T>
 bool BST::TreeIterator<T>::operator==(TreeIterator & another) 
 {
-    return this->keys.pop() == another.keys.pop();
+    return this->cursor == another.cursor;
 }
 
 template<class T>
 bool BST::TreeIterator<T>::operator!=(TreeIterator & another) 
 {
-    return !this->operator==();
+    return !(this->operator==());
 }
 
 template<class T>
-T BST::TreeIterator<T>::operator*()
+BST::TreeIterator<T> BST::TreeIterator<T>::operator++()
 {
-    return cursor->key;
+	previous = cursor;
+	position++;
+	cursor = keys.begin();
+	return *this;
 }
 
 template<class T>
-TreeIterator<T> BST::TreeIterator<T>::begin()
+BST::TreeIterator<T> BST::TreeIterator<T>::operator++(int)
 {
-    return cursor->key;
+	TreeIterator<T> old = *this;
+	++(*this);
+	return old;
+}
+
+template<class T>
+BST::TreeIterator<T> BST::TreeIterator<T>::operator--()
+{
+	if (previous != nullptr && position > 0)
+	{
+		cursor = previous;
+		keys.insert(position, previous);
+		position--;
+	}
+}
+
+template<class T>
+std::list<T>::iterator BST::TreeIterator<T>::begin()
+{
+	return keys.begin();
+}
+
+template<class T>
+T& BST::TreeIterator<T>::operator*()
+{
+    return cursor;
 }

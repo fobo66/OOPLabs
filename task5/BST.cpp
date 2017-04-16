@@ -221,21 +221,6 @@ void BST::Tree<T>::prepare(Node<T>* node, std::vector<T>& temp) const
 	}
 };
 
-//template<class T>
-//void BST::Tree<T>::prepare(Node<T>* node)
-//{
-//	if (node != nullptr)
-//	{
-//		if (node->left)
-//			prepare(node->left);
-//
-//		vine.push_back(std::move(node->key));
-//
-//		if (node->right != nullptr)
-//			prepare(node->right);
-//	}
-//};
-
 template <class T>
 void Tree<T>::cleanup(Node<T> * node)
 {
@@ -246,3 +231,142 @@ void Tree<T>::cleanup(Node<T> * node)
 		delete node;
 	}
 };
+
+template<class T>
+Node<T> * BST::Tree<T>::min(Node<T> * rootNode)
+{
+	Node<T> *node = rootNode;
+	while (node->left != nullptr)
+	{
+		node = node->left;
+	}
+
+	return node;
+};
+
+template<class T>
+Node<T>* BST::Tree<T>::max(Node<T> *rootNode)
+{
+	Node<T> *node = rootNode;
+	while (node->right != nullptr)
+	{
+		node = node->right;
+	}
+};
+
+template<class T>
+std::list<T>::iterator BST::Tree<T>::begin()
+{
+	return TreeIterator<T>().begin();
+}
+template<class T>
+TreeIterator<T> BST::Tree<T>::end()
+{
+	return TreeIterator<T>().end();
+}
+;
+
+template<class T>
+void BST::TreeIterator<T>::postorder(Node<T>* node)
+{
+	if (node != nullptr)
+	{
+		if (node->left != nullptr)
+			postorder(node->left);
+		if (node->right != nullptr)
+			postorder(node->right);
+
+		this->keys.push_back(node->key);
+	}
+}
+
+template<class T>
+bool BST::TreeIterator<T>::operator==(TreeIterator & another)
+{
+	return this->cursor->key == another.cursor->key;
+}
+
+template<class T>
+bool BST::TreeIterator<T>::operator!=(TreeIterator & another)
+{
+	return !(this->operator==());
+}
+
+template<class T>
+BST::TreeIterator<T> BST::TreeIterator<T>::operator++()
+{
+	//previous = cursor;
+	//position++;
+	//cursor = keys.begin();
+	//return *this;
+	if (cursor != nullptr)
+		;
+	else if (cursor->right != nullptr)
+		cursor = collection.min(cursor->right);
+	else
+	{
+		Node<T> * tempNode;
+		while ((tempNode = cursor->parent) != nullptr
+			&& cursor == tempNode->right)
+			cursor = tempNode;
+		cursor = tempNode;
+	}
+	return *this;
+}
+
+template<class T>
+BST::TreeIterator<T> BST::TreeIterator<T>::operator++(int)
+{
+	TreeIterator<T> old = *this;
+	++(*this);
+	return old;
+}
+
+template<class T>
+BST::TreeIterator<T> BST::TreeIterator<T>::operator--()
+{
+	if (cursor == nullptr)
+		cursor = collection.max(collection._root);
+	else if (cursor->left != nullptr)
+		cursor = collection.max(cursor->left);
+	else
+	{
+		Node<T> * tempNode;
+		while ((tempNode = cursor->parent) != nullptr
+			&& cursor == tempNode->left)
+			cursor = tempNode;
+		if (cursor == nullptr)
+			;
+		else
+			cursor = tempNode;
+	}
+
+	return *this;
+}
+
+template<class T>
+BST::TreeIterator<T> BST::TreeIterator<T>::operator--(int)
+{
+	TreeIterator<T> old = *this;
+	--(*this);
+	return old;
+}
+
+template<class T>
+TreeIterator<T> BST::TreeIterator<T>::begin()
+{
+	return *this;
+}
+
+template<class T>
+TreeIterator<T> BST::TreeIterator<T>::end()
+{
+	cursor = collection.max(collection._root);
+	return *this;
+}
+
+template<class T>
+T& BST::TreeIterator<T>::operator*()
+{
+	return cursor->key;
+}

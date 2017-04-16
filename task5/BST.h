@@ -16,7 +16,7 @@ namespace BST {
 	{
 	private:
 		Node<T> * _root; // указатель на корневой узел
-
+		friend class TreeIterator;
 		// Удаление узла
 		void deleteNode(Node<T>* p);
 
@@ -41,6 +41,13 @@ namespace BST {
 
 		//Удаление всех узлов
 		void cleanup(Node<T> * node);	
+
+		Node<T> * min(Node<T> *);
+		Node<T> * max(Node<T> *);
+
+		// Итераторы
+		TreeIterator<T> begin();
+		TreeIterator<T> end();
 	public:
 		// Конструктор
 		Tree()
@@ -104,5 +111,40 @@ namespace BST {
 		{
 			cleanup();
 		};
+	};
+
+	template<class T>
+	class TreeIterator
+		: public std::iterator<
+		std::bidirectional_iterator_tag,
+		T,
+		int,
+		const T*,
+		T&
+		>
+	{
+	private:
+		Node<T> cursor;
+		Tree<T> collection;
+		std::list<T> keys;
+	public:
+		TreeIterator(const Tree<T> & tree)
+		{
+			collection = tree;
+			cursor = tree.min(tree._root);
+		};
+		T& operator*();
+		void postorder(Node<T> *);
+		bool operator==(TreeIterator&);
+		bool operator!=(TreeIterator&);
+		TreeIterator<T> operator++();
+		TreeIterator<T> operator++(int);
+		TreeIterator<T> operator--();
+		TreeIterator<T> operator--(int);
+
+		TreeIterator<T> begin();
+		TreeIterator<T> end();
+
+		~TreeIterator() {};
 	};
 }
