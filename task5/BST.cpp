@@ -2,14 +2,15 @@
 
 #include "BST.h"
 
+
 using namespace BST;
 
-template <class T>
-void Tree<T>::insert(T data)
+template <class K, class T>
+void Tree<K,T>::insert(K id, T data)
 {
-	Node<T>* tmp = new Node<T>;
+	Node<K, T>* tmp = new Node<K, T>;
 	tmp->key = data;
-	tmp->id = tmp->key.getCode();
+	tmp->id = id;
 	tmp->left = nullptr;
 	tmp->right = nullptr;
 
@@ -19,8 +20,8 @@ void Tree<T>::insert(T data)
 		this->_root = tmp;
 	}
 	else {
-		Node<T>* cElem = this->_root;
-		Node<T>* parent = nullptr;
+		Node<K, T>* cElem = this->_root;
+		Node<K, T>* parent = nullptr;
 
 		while (cElem != nullptr)
 		{
@@ -37,8 +38,8 @@ void Tree<T>::insert(T data)
 	}
 };
 
-template <class T>
-void Tree<T>::deleteNode(int id)
+template <class K, class T>
+void Tree<K, T>::deleteNode(K id)
 {
 	if (!this->empty())
 		this->deleteNode(this->findElem(id));
@@ -46,8 +47,8 @@ void Tree<T>::deleteNode(int id)
 		std::cout << "Tree is empty!" << std::endl;
 };
 
-template<class T>
-std::vector<T> BST::Tree<T>::prepare()
+template<class K, class T>
+std::vector<T> BST::Tree<K, T>::prepare()
 {
 	std::vector<T> temp;
 	//разворачиваем дерево в вектор, чтобы сохранить данные в файл
@@ -59,27 +60,32 @@ std::vector<T> BST::Tree<T>::prepare()
 	return std::vector<T>();
 };
 
-template<class T>
-Tree<T> BST::Tree<T>::operator=(const Tree<T>& root)
+template<class K, class T>
+Tree<K, T> BST::Tree<K, T>::operator=(const Tree<K, T>& root)
 {
 	if (this != &root)
-		this->copy(root._root);
+	{
+		this->_root = root._root;
+		if (root._root->left != nullptr)
+			this->copy(root._root->left);
+		if (root._root->right != nullptr)
+			this->copy(root._root->right);
+	}
 	return *this;
 };
 
-template <class T>
-void Tree<T>::cleanup()
+template <class K, class T>
+void Tree<K, T>::cleanup()
 {
 	if (!this->empty())
 	{
 		cleanup(this->_root);
 		this->_root = nullptr;
-		std::cout << "Cleared" << std::endl;
 	}
 };
 
-template <class T>
-Node<T> * Tree<T>::findElem(int id)
+template <class K, class T>
+Node<K, T> * Tree<K, T>::findElem(K id)
 {
 	if (!this->empty())
 		return this->findElem(id, this->_root);
@@ -90,17 +96,17 @@ Node<T> * Tree<T>::findElem(int id)
 	}
 }
 
-template<class T>
-bool BST::Tree<T>::empty()
+template<class K, class T>
+bool BST::Tree<K, T>::empty()
 {
 	return this->_root == nullptr;
 }
 
-template <class T>
-void Tree<T>::deleteNode(Node<T>* p)
+template <class K, class T>
+void Tree<K, T>::deleteNode(Node<K, T>* p)
 {
-	Node<T> *q = nullptr;
-	Node<T> *r = nullptr;
+	Node<K, T> *q = nullptr;
+	Node<K, T> *r = nullptr;
 
 	if (p->left == nullptr || p->right == nullptr)
 		q = p;
@@ -129,41 +135,41 @@ void Tree<T>::deleteNode(Node<T>* p)
 	}
 };
 
-template <class T>
-void Tree<T>::show(Node<T> * node, int indent)
+template <class K, class T>
+void Tree<K, T>::show(Node<K, T> * node)
 {
 	if (node != nullptr)
 	{
 		if (node->right)
-			show(node->right, indent + 4);
+			show(node->right);
 
 		std::cout << node->key << std::endl;
 
 		if (node->left) 
-			show(node->left, indent + 4);
+			show(node->left);
 	}
 }
-template<class T>
-void BST::Tree<T>::fshow(Node<T>* node, std::fstream& stream, int indent)
+template<class K, class T>
+void BST::Tree<K, T>::fshow(Node<K, T>* node, std::fstream& stream)
 {
 	if (node != nullptr)
 	{
 		if (node->right)
-			fshow(node->right, stream, indent + 4);
+			fshow(node->right, stream);
 
-		stream << node->key;
+		stream << node->id << node->key;
 
 		if (node->left) 
-			fshow(node->left, stream, indent + 4);
+			fshow(node->left, stream);
 	}
 }
 ;
 
-template <class T>
-Node<T> * Tree<T>::findSuccessor(int id)
+template <class K, class T>
+Node<K, T> * Tree<K, T>::findSuccessor(K id)
 {
-	Node<T>* startNode = this->findElem(id);
-	Node<T>* parent = startNode;
+	Node<K, T>* startNode = this->findElem(id);
+	Node<K, T>* parent = startNode;
 
 	startNode = startNode->right;
 	while (startNode != nullptr && startNode->left != nullptr)
@@ -175,8 +181,8 @@ Node<T> * Tree<T>::findSuccessor(int id)
 	return startNode;
 };
 
-template <class T>
-Node<T> * Tree<T>::findElem(int id, Node<T> * node)
+template <class K, class T>
+Node<K, T> * Tree<K, T>::findElem(K id, Node<K, T> * node)
 {
 	if (node != nullptr)
 	{
@@ -192,22 +198,23 @@ Node<T> * Tree<T>::findElem(int id, Node<T> * node)
 		return nullptr;
 };
 
-template<class T>
-void BST::Tree<T>::copy(Node<T> * node)
+template<class K, class T>
+void BST::Tree<K, T>::copy(Node<K, T> * node)
 {
 	if (node != nullptr)
 	{
 		if (node->left)
 			this->copy(node->left);
-		this->insert(node->key);
+
+		this->insert(node->id, node->key);
 
 		if (node->right)
 			this->copy(node->right);
 	}
 };
 
-template<class T>
-void BST::Tree<T>::prepare(Node<T>* node, std::vector<T>& temp) const
+template<class K, class T>
+void BST::Tree<K, T>::prepare(Node<K, T>* node, std::vector<T>& temp) const
 {
 	if (node != nullptr)
 	{
@@ -221,8 +228,8 @@ void BST::Tree<T>::prepare(Node<T>* node, std::vector<T>& temp) const
 	}
 };
 
-template <class T>
-void Tree<T>::cleanup(Node<T> * node)
+template <class K, class T>
+void Tree<K, T>::cleanup(Node<K, T> * node)
 {
 	if (node != nullptr)
 	{
@@ -232,80 +239,65 @@ void Tree<T>::cleanup(Node<T> * node)
 	}
 };
 
-template<class T>
-Node<T> * BST::Tree<T>::min(Node<T> * rootNode)
+template<class K, class T>
+Node<K, T> * BST::Tree<K, T>::min(Node<K, T> * rootNode) const
 {
-	Node<T> *node = rootNode;
+	Node<K, T> * node = rootNode;
 	while (node->left != nullptr)
-	{
 		node = node->left;
+
+	return node;
+};
+
+template<class K, class T>
+Node<K, T>* BST::Tree<K, T>::max(Node<K, T> *rootNode) const
+{
+	Node<K, T> *node = rootNode;
+	while (node->right != nullptr)
+	{
+		node = node->right;
 	}
 
 	return node;
 };
 
-template<class T>
-Node<T>* BST::Tree<T>::max(Node<T> *rootNode)
+template<class K, class T>
+TreeIterator<K, T> BST::Tree<K, T>::begin() const
 {
-	Node<T> *node = rootNode;
-	while (node->right != nullptr)
-	{
-		node = node->right;
-	}
-};
-
-template<class T>
-std::list<T>::iterator BST::Tree<T>::begin()
-{
-	return TreeIterator<T>().begin();
+	return TreeIterator<K, T>(*this);
 }
-template<class T>
-TreeIterator<T> BST::Tree<T>::end()
+template<class K, class T>
+TreeIterator<K, T> BST::Tree<K, T>::end() const
 {
-	return TreeIterator<T>().end();
+	return TreeIterator<K, T>(*this, END_ITER);
 }
 ;
-
-template<class T>
-void BST::TreeIterator<T>::postorder(Node<T>* node)
-{
-	if (node != nullptr)
-	{
-		if (node->left != nullptr)
-			postorder(node->left);
-		if (node->right != nullptr)
-			postorder(node->right);
-
-		this->keys.push_back(node->key);
-	}
-}
-
-template<class T>
-bool BST::TreeIterator<T>::operator==(TreeIterator & another)
+template<class K, class T>
+bool BST::TreeIterator<K, T>::operator==(TreeIterator & another)
 {
 	return this->cursor->key == another.cursor->key;
 }
 
-template<class T>
-bool BST::TreeIterator<T>::operator!=(TreeIterator & another)
+template<class K, class T>
+bool BST::TreeIterator<K, T>::operator!=(TreeIterator & another)
 {
-	return !(this->operator==());
+	return !(this->operator==(another));
 }
 
-template<class T>
-BST::TreeIterator<T> BST::TreeIterator<T>::operator++()
+template<class K, class T>
+BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator++()
 {
 	//previous = cursor;
 	//position++;
 	//cursor = keys.begin();
 	//return *this;
-	if (cursor != nullptr)
+	if (cursor == nullptr)
 		;
 	else if (cursor->right != nullptr)
-		cursor = collection.min(cursor->right);
+		cursor = collection->min(cursor->right);
 	else
 	{
-		Node<T> * tempNode;
+		Node<K, T> * tempNode;
 		while ((tempNode = cursor->parent) != nullptr
 			&& cursor == tempNode->right)
 			cursor = tempNode;
@@ -314,24 +306,24 @@ BST::TreeIterator<T> BST::TreeIterator<T>::operator++()
 	return *this;
 }
 
-template<class T>
-BST::TreeIterator<T> BST::TreeIterator<T>::operator++(int)
+template<class K, class T>
+BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator++(int)
 {
-	TreeIterator<T> old = *this;
+	TreeIterator<K, T> old = *this;
 	++(*this);
 	return old;
 }
 
-template<class T>
-BST::TreeIterator<T> BST::TreeIterator<T>::operator--()
+template<class K, class T>
+BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--()
 {
 	if (cursor == nullptr)
-		cursor = collection.max(collection._root);
+		cursor = collection->max(collection._root);
 	else if (cursor->left != nullptr)
-		cursor = collection.max(cursor->left);
+		cursor = collection->max(cursor->left);
 	else
 	{
-		Node<T> * tempNode;
+		Node<K, T> * tempNode;
 		while ((tempNode = cursor->parent) != nullptr
 			&& cursor == tempNode->left)
 			cursor = tempNode;
@@ -344,29 +336,30 @@ BST::TreeIterator<T> BST::TreeIterator<T>::operator--()
 	return *this;
 }
 
-template<class T>
-BST::TreeIterator<T> BST::TreeIterator<T>::operator--(int)
+template<class K, class T>
+BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--(int)
 {
-	TreeIterator<T> old = *this;
+	TreeIterator<K, T> old = *this;
 	--(*this);
 	return old;
 }
 
-template<class T>
-TreeIterator<T> BST::TreeIterator<T>::begin()
+template<class K, class T>
+TreeIterator<K, T> BST::TreeIterator<K, T>::begin()
 {
+	cursor = collection.min(collection._root);
 	return *this;
 }
 
-template<class T>
-TreeIterator<T> BST::TreeIterator<T>::end()
+template<class K, class T>
+TreeIterator<K, T> BST::TreeIterator<K, T>::end()
 {
 	cursor = collection.max(collection._root);
 	return *this;
 }
 
-template<class T>
-T& BST::TreeIterator<T>::operator*()
+template<class K, class T>
+T BST::TreeIterator<K, T>::operator*()
 {
 	return cursor->key;
 }

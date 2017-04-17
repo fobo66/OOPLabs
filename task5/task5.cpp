@@ -2,10 +2,23 @@
 //
 
 #include "stdafx.h"
-
+#include "BST.cpp"
 
 int main()
 {
+	BST::Tree<int, std::string> tree;
+	std::string value;
+	int key;
+	for (size_t i = 0; i < 3; i++)
+	{
+		std::cout << "Key: ";
+		std::cin >> key;
+		std::cin.ignore(INT_MAX, '\n');
+		std::cout << "Value: ";
+		std::getline(std::cin, value);
+		tree.insert(key, value);
+	}
+	std::cout << tree;
     return 0;
 }
 

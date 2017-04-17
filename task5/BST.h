@@ -1,53 +1,102 @@
 #pragma once
-
+#define BEGIN_ITER 1
+#define END_ITER 2
 namespace BST {
 
-	template<class T>
+	template<class K, class T>
+	class Tree;
+
+	template<class K, class T>
 	struct Node {
 		Node *parent;
 		T key;
-		int id;
+		K id;
 		Node *left;
 		Node *right;
 	};
 
-	template<class T>
+	template<class K, class T>
+	class TreeIterator
+		: public std::iterator<
+		std::bidirectional_iterator_tag,
+		T,
+		int,
+		const T*,
+		T&
+		>
+	{
+	private:
+		Node<K, T> * cursor;
+		Tree<K, T> * collection;
+	public:
+		TreeIterator()
+		{
+			collection = new Tree<K, T>();
+			cursor = nullptr;
+		};
+		TreeIterator(const Tree<K, T> & tree, int beginOrEnd = BEGIN_ITER)
+		{
+			collection = new Tree<K, T>();
+			collection->copy(tree._root);
+			if (beginOrEnd == BEGIN_ITER)
+				cursor = tree.min(tree._root);
+			if (beginOrEnd == END_ITER)
+				cursor = tree.max(tree._root);
+		};
+		T operator*();
+		bool operator==(TreeIterator&);
+		bool operator!=(TreeIterator&);
+		TreeIterator<K, T> operator++();
+		TreeIterator<K, T> operator++(int);
+		TreeIterator<K, T> operator--();
+		TreeIterator<K, T> operator--(int);
+
+		TreeIterator<K, T> begin();
+		TreeIterator<K, T> end();
+
+		~TreeIterator()
+		{
+			collection->cleanup();
+			cursor = nullptr;
+		};
+	};
+
+	template<class K, class T>
 	class Tree
 	{
 	private:
-		Node<T> * _root; // указатель на корневой узел
-		friend class TreeIterator;
+		Node<K, T> * _root; // указатель на корневой узел
 		// Удаление узла
-		void deleteNode(Node<T>* p);
-
+		void deleteNode(Node<K, T>* p);
+		friend class TreeIterator<K, T>;
 		// Вывод дерева на экран так, как надо
-		void show(Node<T> * node, int level);
+		void show(Node<K, T> * node);
 
 		// Вывод в файл
-		void fshow(Node<T> * node, std::fstream & stream, int level);
+		void fshow(Node<K, T> * node, std::fstream & stream);
 	
 		// Метод для нахождения правильного потомка для подстановки
 		// вместо удаляемого узла
-		Node<T> * findSuccessor(int id);
+		Node<K, T> * findSuccessor(K id);
 
 		//Поиск узла с заданным ключом
-		Node<T> * findElem(int id, Node<T> * node);
+		Node<K, T> * findElem(K id, Node<K, T> * node);
 
 		// Копирование дерева
-		void copy(Node<T> *);
+		void copy(Node<K, T> *);
 
 		// Разворачивание дерева в вектор 
-		void prepare(Node<T> * node, std::vector<T> & temp) const;		
+		void prepare(Node<K, T> * node, std::vector<T> & temp) const;
 
 		//Удаление всех узлов
-		void cleanup(Node<T> * node);	
+		void cleanup(Node<K, T> * node);
 
-		Node<T> * min(Node<T> *);
-		Node<T> * max(Node<T> *);
+		Node<K, T> * min(Node<K, T> *) const;
+		Node<K, T> * max(Node<K, T> *) const;
 
 		// Итераторы
-		TreeIterator<T> begin();
-		TreeIterator<T> end();
+		TreeIterator<K, T> begin() const;
+		TreeIterator<K, T> end() const;
 	public:
 		// Конструктор
 		Tree()
@@ -55,13 +104,22 @@ namespace BST {
 			this->_root = nullptr;
 		};
 
-		Tree<T> operator=(const Tree<T> &);
+		Tree(const Tree<K, T> &another) 
+		{
+			this->_root = another._root;
+			if (another._root->left != nullptr)
+				this->copy(another._root->left);
+			if (another._root->right != nullptr)
+				this->copy(another._root->right);
+		};
+
+		Tree<K, T> operator=(const Tree<K, T> &);
 
 		// Вставка узла в дерево
-		void insert(T data);
+		void insert(K id, T data);
 
 		// Обёртка над приватной функцией, скрывающая от пользователей указатель на корневой узел
-		void deleteNode(int id);
+		void deleteNode(K id);
 
 		// Обёртка над приватной функцией, скрывающая от пользователей указатель на корневой узел
 		std::vector<T> prepare();
@@ -70,7 +128,8 @@ namespace BST {
 		friend std::ostream& operator<<(std::ostream & stream, Tree & root)
 		{
 			if (root._root != nullptr)
-				root.show(root._root, 0);
+				for (auto i = root.begin(); i != root.end(); ++i)
+					stream << (*i);
 			else
 				stream << "Tree is empty!" << std::endl;
 
@@ -88,11 +147,12 @@ namespace BST {
 		friend std::fstream& operator>>(std::fstream & stream, Tree & root)
 		{
 			T item;
+			K key;
 			while (true)
 			{
 				if (stream.eof()) break;
-				stream >> item;
-				root.insert(item);
+				stream >> key >> item;
+				root.insert(key, item);
 			}
 
 			return stream;
@@ -102,7 +162,7 @@ namespace BST {
 		void cleanup();
 
 		// Обёртка над приватной функцией, скрывающая от пользователей указатель на корневой узел
-		Node<T> * findElem(int id);
+		Node<K, T> * findElem(K id);
 
 		bool empty();
 
@@ -111,40 +171,5 @@ namespace BST {
 		{
 			cleanup();
 		};
-	};
-
-	template<class T>
-	class TreeIterator
-		: public std::iterator<
-		std::bidirectional_iterator_tag,
-		T,
-		int,
-		const T*,
-		T&
-		>
-	{
-	private:
-		Node<T> cursor;
-		Tree<T> collection;
-		std::list<T> keys;
-	public:
-		TreeIterator(const Tree<T> & tree)
-		{
-			collection = tree;
-			cursor = tree.min(tree._root);
-		};
-		T& operator*();
-		void postorder(Node<T> *);
-		bool operator==(TreeIterator&);
-		bool operator!=(TreeIterator&);
-		TreeIterator<T> operator++();
-		TreeIterator<T> operator++(int);
-		TreeIterator<T> operator--();
-		TreeIterator<T> operator--(int);
-
-		TreeIterator<T> begin();
-		TreeIterator<T> end();
-
-		~TreeIterator() {};
 	};
 }
