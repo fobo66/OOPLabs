@@ -40,8 +40,8 @@ namespace BST {
 			collection->copy(tree._root);
 			if (beginOrEnd == BEGIN_ITER)
 				cursor = tree.min(tree._root);
-			if (beginOrEnd == END_ITER)
-				cursor = tree.max(tree._root);
+			else if (beginOrEnd == END_ITER)
+				cursor = nullptr;
 		};
 		T operator*();
 		bool operator==(TreeIterator&);
@@ -129,7 +129,7 @@ namespace BST {
 		{
 			if (root._root != nullptr)
 				for (auto i = root.begin(); i != root.end(); ++i)
-					stream << (*i);
+					stream << (*i) << std::endl;
 			else
 				stream << "Tree is empty!" << std::endl;
 
