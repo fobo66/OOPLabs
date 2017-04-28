@@ -320,7 +320,7 @@ template<class K, class T>
 BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--()
 {
 	if (cursor == nullptr)
-		cursor = collection->max(collection._root);
+		cursor = collection->max(collection->_root);
 	else if (cursor->left != nullptr)
 		cursor = collection->max(cursor->left);
 	else
@@ -349,14 +349,14 @@ BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--(int)
 template<class K, class T>
 TreeIterator<K, T> BST::TreeIterator<K, T>::begin()
 {
-	cursor = collection.min(collection._root);
+	cursor = collection->min(collection->_root);
 	return *this;
 }
 
 template<class K, class T>
 TreeIterator<K, T> BST::TreeIterator<K, T>::end()
 {
-	cursor = collection.max(collection._root);;
+	cursor = collection->max(collection->_root);;
 	return *this;
 }
 

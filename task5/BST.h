@@ -94,9 +94,6 @@ namespace BST {
 		Node<K, T> * min(Node<K, T> *) const;
 		Node<K, T> * max(Node<K, T> *) const;
 
-		// Итераторы
-		TreeIterator<K, T> begin() const;
-		TreeIterator<K, T> end() const;
 	public:
 		// Конструктор
 		Tree()
@@ -163,6 +160,10 @@ namespace BST {
 
 		// Обёртка над приватной функцией, скрывающая от пользователей указатель на корневой узел
 		Node<K, T> * findElem(K id);
+
+		// Итераторы
+		TreeIterator<K, T> begin() const;
+		TreeIterator<K, T> end() const;
 
 		bool empty();
 

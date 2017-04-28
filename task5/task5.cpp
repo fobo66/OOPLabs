@@ -18,7 +18,13 @@ int main()
 		std::getline(std::cin, value);
 		tree.insert(key, value);
 	}
-	std::cout << tree;
+	std::cout << tree << std::endl;
+
+	auto i = tree.begin();
+	++i;
+	std::cout << (*i) << std::endl;
+	i--;
+	std::cout << (*i) << std::endl;
     return 0;
 }
 
