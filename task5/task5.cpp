@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "BST.cpp"
+#include "BSTAlgorithm.h"
 
 int main()
 {
@@ -25,6 +26,7 @@ int main()
 	std::cout << (*i) << std::endl;
 	i--;
 	std::cout << (*i) << std::endl;
+	std::cout << *(BST::Algorithm::find(tree.begin(), tree.end(), "aaa")) << std::endl;
     return 0;
 }
 
