@@ -36,7 +36,14 @@ void Tree<K,T>::insert(K id, T data)
 		else
 			parent->right = tmp;
 	}
-};
+	size++;
+}
+template<class K, class T>
+size_t BST::Tree<K, T>::size() const
+{
+	return size;
+}
+;
 
 template <class K, class T>
 void Tree<K, T>::deleteNode(K id)
@@ -344,20 +351,6 @@ BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--(int)
 	TreeIterator<K, T> old = *this;
 	--(*this);
 	return old;
-}
-
-template<class K, class T>
-TreeIterator<K, T> BST::TreeIterator<K, T>::begin()
-{
-	cursor = collection->min(collection->_root);
-	return *this;
-}
-
-template<class K, class T>
-TreeIterator<K, T> BST::TreeIterator<K, T>::end()
-{
-	cursor = collection->max(collection->_root);;
-	return *this;
 }
 
 template<class K, class T>

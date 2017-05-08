@@ -27,17 +27,13 @@ namespace BST {
 	{
 	private:
 		Node<K, T> * cursor;
-		Tree<K, T> * collection;
 	public:
 		TreeIterator()
 		{
-			collection = new Tree<K, T>();
 			cursor = nullptr;
 		};
 		TreeIterator(const Tree<K, T> & tree, int beginOrEnd = BEGIN_ITER)
 		{
-			collection = new Tree<K, T>();
-			collection->copy(tree._root);
 			if (beginOrEnd == BEGIN_ITER)
 				cursor = tree.min(tree._root);
 			else if (beginOrEnd == END_ITER)
@@ -51,12 +47,8 @@ namespace BST {
 		TreeIterator<K, T> operator--();
 		TreeIterator<K, T> operator--(int);
 
-		TreeIterator<K, T> begin();
-		TreeIterator<K, T> end();
-
 		~TreeIterator()
 		{
-			collection->cleanup();
 			cursor = nullptr;
 		};
 	};
@@ -66,6 +58,7 @@ namespace BST {
 	{
 	private:
 		Node<K, T> * _root; // указатель на корневой узел
+		size_t size;
 		// Удаление узла
 		void deleteNode(Node<K, T>* p);
 		friend class TreeIterator<K, T>;
@@ -99,6 +92,7 @@ namespace BST {
 		Tree()
 		{
 			this->_root = nullptr;
+			size = 0;
 		};
 
 		Tree(const Tree<K, T> &another) 
@@ -114,6 +108,9 @@ namespace BST {
 
 		// Вставка узла в дерево
 		void insert(K id, T data);
+		
+		// Получение размера дерева
+		size_t size() const;
 
 		// Обёртка над приватной функцией, скрывающая от пользователей указатель на корневой узел
 		void deleteNode(K id);
