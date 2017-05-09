@@ -140,6 +140,8 @@ void Tree<K, T>::deleteNode(Node<K, T>* p)
 		p->key = q->key;
 		p->id = q->id;
 	}
+
+	_size--;
 };
 
 template <class K, class T>
