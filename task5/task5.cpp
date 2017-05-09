@@ -23,10 +23,10 @@ int main()
 
 	auto i = tree.begin();
 	++i;
-	std::cout << (*i) << std::endl;
+	std::cout << (*i).second << std::endl;
 	i--;
-	std::cout << (*i) << std::endl;
-	std::cout << *(BST::Algorithm::find(tree.begin(), tree.end(), "aaa")) << std::endl;
+	std::cout << (*i).first << std::endl;
+	std::cout << (*(BST::Algorithm::find(tree.begin(), tree.end(), "aaa"))).second << std::endl;
     return 0;
 }
 

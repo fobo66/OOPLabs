@@ -36,12 +36,12 @@ void Tree<K,T>::insert(K id, T data)
 		else
 			parent->right = tmp;
 	}
-	size++;
+	_size++;
 }
 template<class K, class T>
 size_t BST::Tree<K, T>::size() const
 {
-	return size;
+	return _size;
 }
 ;
 
@@ -261,9 +261,7 @@ Node<K, T>* BST::Tree<K, T>::max(Node<K, T> *rootNode) const
 {
 	Node<K, T> *node = rootNode;
 	while (node->right != nullptr)
-	{
 		node = node->right;
-	}
 
 	return node;
 };
@@ -354,9 +352,9 @@ BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--(int)
 }
 
 template<class K, class T>
-T BST::TreeIterator<K, T>::operator*()
+std::pair<K, T> BST::TreeIterator<K, T>::operator*()
 {
 	if (cursor != nullptr)
-		return cursor->key;
-	return T();
+		return std::pair<K, T>(cursor->id, cursor->key);
+	return std::pair<K, T>();
 }

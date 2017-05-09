@@ -21,7 +21,7 @@ namespace BST {
 	template<class Iterator, class T>
 	inline Iterator Algorithm::find(Iterator first, Iterator last, T & value)
 	{
-		while (first != last && !(*first == value))
+		while (first != last && !((*first).second == value))
 			++first;
 		return first;
 	}

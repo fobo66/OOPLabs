@@ -27,19 +27,22 @@ namespace BST {
 	{
 	private:
 		Node<K, T> * cursor;
+		Tree<K, T> * collection;
 	public:
 		TreeIterator()
 		{
+			collection = new Tree<K, T>();
 			cursor = nullptr;
 		};
 		TreeIterator(const Tree<K, T> & tree, int beginOrEnd = BEGIN_ITER)
 		{
+			collection->copy(tree._root);
 			if (beginOrEnd == BEGIN_ITER)
 				cursor = tree.min(tree._root);
 			else if (beginOrEnd == END_ITER)
 				cursor = nullptr;
 		};
-		T operator*();
+		std::pair<K, T> operator*();
 		bool operator==(TreeIterator&);
 		bool operator!=(TreeIterator&);
 		TreeIterator<K, T> operator++();
@@ -58,7 +61,7 @@ namespace BST {
 	{
 	private:
 		Node<K, T> * _root; // указатель на корневой узел
-		size_t size;
+		size_t _size;
 		// Удаление узла
 		void deleteNode(Node<K, T>* p);
 		friend class TreeIterator<K, T>;
@@ -92,7 +95,7 @@ namespace BST {
 		Tree()
 		{
 			this->_root = nullptr;
-			size = 0;
+			_size = 0;
 		};
 
 		Tree(const Tree<K, T> &another) 
@@ -123,7 +126,7 @@ namespace BST {
 		{
 			if (root._root != nullptr)
 				for (auto i = root.begin(); i != root.end(); ++i)
-					stream << (*i) << std::endl;
+					stream << (*i).second << std::endl;
 			else
 				stream << "Tree is empty!" << std::endl;
 
