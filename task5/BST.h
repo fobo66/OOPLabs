@@ -28,6 +28,7 @@ namespace BST {
 	private:
 		Node<K, T> * cursor;
 		Tree<K, T> * collection;
+		friend class Algorithm;
 	public:
 		TreeIterator()
 		{
@@ -69,7 +70,7 @@ namespace BST {
 		void show(Node<K, T> * node);
 
 		// Вывод в файл
-		void fshow(Node<K, T> * node, std::fstream & stream);
+		void fileOutput(Node<K, T> * node, std::fstream & stream);
 	
 		// Метод для нахождения правильного потомка для подстановки
 		// вместо удаляемого узла
@@ -136,7 +137,7 @@ namespace BST {
 		friend std::fstream& operator<<(std::fstream & stream, Tree & root)
 		{
 			if (root._root != nullptr)
-				root.fshow(root._root, stream, 0);
+				root.fileOutput(root._root, stream);
 
 			return stream;
 		};

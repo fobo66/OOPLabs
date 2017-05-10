@@ -30,6 +30,54 @@
     <ClInclude Include="BSTAlgorithm.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="CalcMachine.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Laptop.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuItem.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Monoblock.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Portative.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Stationary.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Tablet.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Validator.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryFile.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="FileException.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberException.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="StringException.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -39,6 +87,48 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="BST.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="CalcMachine.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Laptop.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Monoblock.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Portative.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Stationary.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Tablet.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Validator.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryFile.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Exception.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="FileException.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="NumberException.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="StringException.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

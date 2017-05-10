@@ -9,10 +9,17 @@
 
 #include <iostream>
 #include <fstream>
-#include <list>
-#include <vector>
+#include <iomanip>
 #include <string>
 
+
+// boost
+#include <boost\serialization\vector.hpp>
+#include <boost\archive\binary_iarchive.hpp>
+#include <boost\archive\binary_oarchive.hpp>
+#include <boost\archive\text_oarchive.hpp>
+#include <boost\archive\text_iarchive.hpp>
+#include <boost\serialization\base_object.hpp>
 
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

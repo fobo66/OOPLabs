@@ -2,31 +2,48 @@
 //
 
 #include "stdafx.h"
-#include "BST.cpp"
-#include "BSTAlgorithm.h"
+
+#include "Type.h"
+#include "Tablet.h"
+#include "Laptop.h"
+#include "Monoblock.h"
+#include "Interface.cpp"
+
+void customTerminate()
+{
+	std::cerr << "Cannot continue work, forced termination";
+}
 
 int main()
 {
-	BST::Tree<int, std::string> tree;
-	std::string value;
-	int key;
-	for (size_t i = 0; i < 3; i++)
+	std::set_terminate(customTerminate);
+	DeviceType choice;
+	int param;
+
+	comp::Laptop laptop;
+	comp::Tablet tablet;
+	comp::Monoblock pc;
+
+	std::string menu = "Which type of objects you want to work with?\n\t1 - Laptop\t2 - Monoblock\t3 - Tablet\t0 - Exit\n";
+	do
+		Validator::checkedNumericalInput(param, menu);
+	while (param < 0 || param > 3);
+	choice = (DeviceType) param;
+
+	switch (choice)
 	{
-		std::cout << "Key: ";
-		std::cin >> key;
-		std::cin.ignore(INT_MAX, '\n');
-		std::cout << "Value: ";
-		std::getline(std::cin, value);
-		tree.insert(key, value);
+	case DeviceType::LAPTOP:
+		Interface<comp::Laptop>::work(laptop);
+		break;
+	case DeviceType::MONOBLOCK:
+		Interface<comp::Monoblock>::work(pc);
+		break;
+	case DeviceType::TABLET:
+		Interface<comp::Tablet>::work(tablet);
+		break;
+	case DeviceType::EXIT:
+		return 0;
 	}
-	std::cout << tree << std::endl;
 
-	auto i = tree.begin();
-	++i;
-	std::cout << (*i).second << std::endl;
-	i--;
-	std::cout << (*i).first << std::endl;
-	std::cout << (*(BST::Algorithm::find(tree.begin(), tree.end(), "aaa"))).second << std::endl;
-    return 0;
+	return 0;
 }
-

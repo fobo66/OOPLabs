@@ -159,17 +159,17 @@ void Tree<K, T>::show(Node<K, T> * node)
 	}
 }
 template<class K, class T>
-void BST::Tree<K, T>::fshow(Node<K, T>* node, std::fstream& stream)
+void BST::Tree<K, T>::fileOutput(Node<K, T>* node, std::fstream& stream)
 {
 	if (node != nullptr)
 	{
 		if (node->right)
-			fshow(node->right, stream);
+			fileOutput(node->right, stream);
 
 		stream << node->id << node->key;
 
 		if (node->left) 
-			fshow(node->left, stream);
+			fileOutput(node->left, stream);
 	}
 }
 ;
