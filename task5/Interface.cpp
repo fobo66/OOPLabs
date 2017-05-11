@@ -12,6 +12,7 @@ template<class T>
 void Interface<T>::work(T & param)
 {
 	BST::Tree<int, T> tree;
+	BST::TreeIterator<int, T> iter;
 	std::string filename = typeid(T).name();
 	filename = filename.substr(12, filename.length() - 12);
 	file::TextFile<BST::Tree<int, T>> file(filename + ".txt");
@@ -32,8 +33,9 @@ void Interface<T>::work(T & param)
 			break;
 		case MenuItem::FIND:
 			Validator::checkedNumericalInput(key, "Input key to find - computer's code:  ");
-			if (tree.findElem(key) != nullptr)
-				std::cout << "Found!" << std::endl;
+			iter = Algorithm::find(tree.begin(), tree.end(), key);
+			if ((*iter).first != 0)
+				std::cout << (*iter).second << std::endl;
 			else
 				std::cout << "Not found!" << std::endl;
 			break;
@@ -44,7 +46,7 @@ void Interface<T>::work(T & param)
 			break;
 		case MenuItem::DELETE:
 			Validator::checkedNumericalInput(key, "Input key to delete - computer's code:  ");
-			if (tree.findElem(key) != nullptr)
+			if ((*(Algorithm::find(tree.begin(), tree.end(), key))).first != 0)
 			{
 				tree.deleteNode(key);
 				std::cout << "Deleted!" << std::endl;

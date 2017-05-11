@@ -49,7 +49,7 @@ template <class K, class T>
 void Tree<K, T>::deleteNode(K id)
 {
 	if (!this->empty())
-		this->deleteNode(this->findElem(id));
+		this->deleteNode(&(Algorithm::find(begin(), end(), id)));
 	else
 		std::cout << "Tree is empty!" << std::endl;
 };
@@ -90,18 +90,6 @@ void Tree<K, T>::cleanup()
 		this->_root = nullptr;
 	}
 };
-
-template <class K, class T>
-Node<K, T> * Tree<K, T>::findElem(K id)
-{
-	if (!this->empty())
-		return this->findElem(id, this->_root);
-	else
-	{
-		std::cout << "Tree is empty!" << std::endl;
-		return nullptr;
-	}
-}
 
 template<class K, class T>
 bool BST::Tree<K, T>::empty()
@@ -177,7 +165,7 @@ void BST::Tree<K, T>::fileOutput(Node<K, T>* node, std::fstream& stream)
 template <class K, class T>
 Node<K, T> * Tree<K, T>::findSuccessor(K id)
 {
-	Node<K, T>* startNode = this->findElem(id);
+	Node<K, T>* startNode = &(Algorithm::find(begin(), end(), id));
 	Node<K, T>* parent = startNode;
 
 	startNode = startNode->right;
@@ -190,34 +178,17 @@ Node<K, T> * Tree<K, T>::findSuccessor(K id)
 	return startNode;
 };
 
-template <class K, class T>
-Node<K, T> * Tree<K, T>::findElem(K id, Node<K, T> * node)
-{
-	if (node != nullptr)
-	{
-		if (id == node->id)
-			return node;
-
-		if (id < node->id)
-			return findElem(id, node->left);
-		else
-			return findElem(id, node->right);
-	}
-	else
-		return nullptr;
-};
-
 template<class K, class T>
 void BST::Tree<K, T>::copy(Node<K, T> * node)
 {
 	if (node != nullptr)
 	{
-		if (node->left)
+		if (node->left != nullptr)
 			this->copy(node->left);
 
 		this->insert(node->id, node->key);
 
-		if (node->right)
+		if (node->right != nullptr)
 			this->copy(node->right);
 	}
 };
@@ -227,7 +198,7 @@ void BST::Tree<K, T>::prepare(Node<K, T>* node, std::vector<T>& temp) const
 {
 	if (node != nullptr)
 	{
-		if (node->left)
+		if (node->left != nullptr)
 			prepare(node->left, temp);
 
 		temp.push_back(std::move(node->key));
@@ -299,7 +270,11 @@ BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator++()
 	if (cursor == nullptr)
 		;
 	else if (cursor->right != nullptr)
-		cursor = collection->min(cursor->right);
+	{
+		cursor = cursor->right;
+		while (cursor->left != nullptr)
+			cursor = cursor->left;
+	}
 	else
 	{
 		Node<K, T> * tempNode = cursor->parent;
@@ -309,7 +284,7 @@ BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator++()
 			cursor = tempNode;
 			tempNode = tempNode->parent;
 		}
-		if (cursor->right != tempNode)
+		//if (cursor->right != tempNode)
 			cursor = tempNode;
 	}
 	return *this;
@@ -364,5 +339,5 @@ std::pair<K, T> BST::TreeIterator<K, T>::operator*()
 {
 	if (cursor != nullptr)
 		return std::pair<K, T>(cursor->id, cursor->key);
-	return std::pair<K, T>();
+	return std::pair<K, T>(0, T());
 }

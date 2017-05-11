@@ -1,4 +1,7 @@
 #pragma once
+
+#include "BSTAlgorithm.h"
+
 #define BEGIN_ITER 1
 #define END_ITER 2
 namespace BST {
@@ -27,18 +30,15 @@ namespace BST {
 	{
 	private:
 		Node<K, T> * cursor;
-		Tree<K, T> * collection;
-		friend class Algorithm;
+		friend class Tree<K, T>;
 		Node<K,T> * operator&();
 	public:
 		TreeIterator()
 		{
-			collection = new Tree<K, T>();
 			cursor = nullptr;
 		};
 		TreeIterator(const Tree<K, T> & tree, int beginOrEnd = BEGIN_ITER)
 		{
-			collection->copy(tree._root);
 			if (beginOrEnd == BEGIN_ITER)
 				cursor = tree.min(tree._root);
 			else if (beginOrEnd == END_ITER)
@@ -76,9 +76,6 @@ namespace BST {
 		// Метод для нахождения правильного потомка для подстановки
 		// вместо удаляемого узла
 		Node<K, T> * findSuccessor(K id);
-
-		//Поиск узла с заданным ключом
-		Node<K, T> * findElem(K id, Node<K, T> * node);
 
 		// Копирование дерева
 		void copy(Node<K, T> *);
@@ -159,9 +156,6 @@ namespace BST {
 
 		// Обёртка над приватной функцией, скрывающая от пользователей указатель на корневой узел
 		void cleanup();
-
-		// Обёртка над приватной функцией, скрывающая от пользователей указатель на корневой узел
-		Node<K, T> * findElem(K id);
 
 		// Итераторы
 		TreeIterator<K, T> begin() const;
