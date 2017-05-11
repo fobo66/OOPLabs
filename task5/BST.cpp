@@ -223,8 +223,9 @@ template<class K, class T>
 Node<K, T> * BST::Tree<K, T>::min(Node<K, T> * rootNode) const
 {
 	Node<K, T> * node = rootNode;
-	while (node->left != nullptr)
-		node = node->left;
+	if (node != nullptr)
+		while (node->left != nullptr)
+			node = node->left;
 
 	return node;
 };
@@ -233,8 +234,9 @@ template<class K, class T>
 Node<K, T>* BST::Tree<K, T>::max(Node<K, T> *rootNode) const
 {
 	Node<K, T> *node = rootNode;
-	while (node->right != nullptr)
-		node = node->right;
+	if (node != nullptr)
+		while (node->right != nullptr)
+			node = node->right;
 
 	return node;
 };
