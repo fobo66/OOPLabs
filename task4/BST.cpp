@@ -221,21 +221,6 @@ void BST::Tree<T>::prepare(Node<T>* node, std::vector<T>& temp) const
 	}
 };
 
-//template<class T>
-//void BST::Tree<T>::prepare(Node<T>* node)
-//{
-//	if (node != nullptr)
-//	{
-//		if (node->left)
-//			prepare(node->left);
-//
-//		vine.push_back(std::move(node->key));
-//
-//		if (node->right != nullptr)
-//			prepare(node->right);
-//	}
-//};
-
 template <class T>
 void Tree<T>::cleanup(Node<T> * node)
 {
