@@ -29,6 +29,7 @@ namespace BST {
 		Node<K, T> * cursor;
 		Tree<K, T> * collection;
 		friend class Algorithm;
+		Node<K,T> * operator&();
 	public:
 		TreeIterator()
 		{

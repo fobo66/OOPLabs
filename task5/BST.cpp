@@ -354,6 +354,12 @@ BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--(int)
 }
 
 template<class K, class T>
+Node<K, T> * BST::TreeIterator<K, T>::operator&()
+{
+	return cursor;
+}
+
+template<class K, class T>
 std::pair<K, T> BST::TreeIterator<K, T>::operator*()
 {
 	if (cursor != nullptr)
