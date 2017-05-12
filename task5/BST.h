@@ -49,8 +49,10 @@ namespace BST {
 		bool operator!=(TreeIterator&);
 		TreeIterator<K, T> operator++();
 		TreeIterator<K, T> operator++(int);
+		TreeIterator<K, T> operator+(int);
 		TreeIterator<K, T> operator--();
 		TreeIterator<K, T> operator--(int);
+		TreeIterator<K, T> operator-(int);
 
 		~TreeIterator()
 		{

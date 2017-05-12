@@ -301,6 +301,15 @@ BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator++(int)
 }
 
 template<class K, class T>
+TreeIterator<K, T> BST::TreeIterator<K, T>::operator+(int offset)
+{
+	int i = 0;
+	while (i++ < offset)
+		++(*this);
+	return *this;
+}
+
+template<class K, class T>
 BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--()
 {
 	if (cursor == nullptr)
@@ -328,6 +337,15 @@ BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--(int)
 	TreeIterator<K, T> old = *this;
 	--(*this);
 	return old;
+}
+
+template<class K, class T>
+TreeIterator<K, T> BST::TreeIterator<K, T>::operator-(int offset)
+{
+	int i = 0;
+	while (i++ < offset)
+		--(*this);
+	return *this;
 }
 
 template<class K, class T>
