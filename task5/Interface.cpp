@@ -29,7 +29,10 @@ void Interface<T>::work(T & param)
 		{
 		case MenuItem::ADD:
 			std::cin >> param;
-			tree.insert(param.getCode(), param);
+			if (param.getCode() != 0)
+				tree.insert(param.getCode(), param);
+			else
+				std::cout << "Code cannot be 0" << std::endl;
 			break;
 		case MenuItem::FIND:
 			Validator::checkedNumericalInput(key, "Input key to find - computer's code:  ");
