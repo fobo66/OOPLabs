@@ -14,7 +14,6 @@ void customTerminate()
 int main()
 {
 	std::set_terminate(customTerminate);
-	int param;
 	comp::Laptop laptop;
     Interface<comp::Laptop>::work(laptop);
 

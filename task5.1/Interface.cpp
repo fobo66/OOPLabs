@@ -6,11 +6,12 @@
 template<class T>
 void Interface<T>::work(T & param)
 {
-	std::multimap<int, T> tree;
+	std::multimap<const int, T> tree;
 	int choice;
 	int key;
 
-	std::string choiceString = "Choose: \n1 - Add \n2 - Find \n3 - View \n4 - Delete \n5 - Clear \n6 - Backup \n7 - Restore \n8 - Archivate \n9 - Unarchivate \n0 - Quit\n";
+	std::string choiceString = 
+		"Choose: \n1 - Add \n2 - Find \n3 - View \n4 - Delete \n5 - Clear \n0 - Quit\n";
 
 	while (true)
 	{
@@ -19,62 +20,37 @@ void Interface<T>::work(T & param)
 		{
 		case MenuItem::ADD:
 			std::cin >> param;
-			tree.insert(param.getCode(), param);
+			if (param.getCode() != 0)
+				tree.insert(std::pair<const int, T>(param.getCode(), param));
+			else
+				std::cout << "Tree cannot contain keys equal to 0!" << std::endl;
 			break;
 		case MenuItem::FIND:
-			Validator::checkedNumericalInput(key, "Input key to find - computer's code:  ");
-			iter = Algorithm::find(tree.begin(), tree.end(), key);
-			if ((*iter).first != 0)
-				std::cout << (*iter).second << std::endl;
+			Validator::checkedNumericalInput(key,
+				"Input key to find");
+			if (tree.count(key) != 0)
+				std::cout << (*tree.find(key)).second << std::endl;
 			else
 				std::cout << "Not found!" << std::endl;
 			break;
 		case MenuItem::VIEW:
 			if (!tree.empty())
 				param.header();
-			std::cout << tree << std::endl;
+			for (auto i = tree.cbegin(); i != tree.cend(); ++i)
+				std::cout << (*i).second << std::endl;
 			break;
 		case MenuItem::DELETE:
 			Validator::checkedNumericalInput(key, "Input key to delete - computer's code:  ");
-			if ((*(Algorithm::find(tree.begin(), tree.end(), key))).first != 0)
+			if (tree.count(key) != 0)
 			{
-				tree.deleteNode(key);
+				tree.erase(key);
 				std::cout << "Deleted!" << std::endl;
 			}
 			else
 				std::cout << "Not found!" << std::endl;
 			break;
 		case MenuItem::CLEAR:
-			tree.cleanup();
-			break;
-		case MenuItem::BACKUP:
-			if (!tree.empty())
-				file.write(tree);
-			else
-				std::cout << "Nothing to backup!" << std::endl;
-			break;
-		case MenuItem::RESTORE:
-			if (file.exists() && !file.empty())
-				file.read(tree);
-			else
-				std::cout << "No backup yet!" << std::endl;
-			break;
-		case MenuItem::BACKUP_BIN:
-			if (!tree.empty())
-				binfile.write(tree.prepare());
-			else
-				std::cout << "Nothing to archivate!" << std::endl;
-			break;
-		case MenuItem::RESTORE_BIN:
-			if (binfile.exists() && !binfile.empty())
-			{
-				std::vector<T> vine;
-				binfile.read(vine);
-				for (auto i = vine.begin(); i != vine.end(); i++)
-					tree.insert((*i).getCode(), *i);
-			}
-			else
-				std::cout << "No archive yet!" << std::endl;
+			tree.clear();
 			break;
 		case MenuItem::EXIT:
 			return;

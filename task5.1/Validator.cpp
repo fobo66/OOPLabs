@@ -13,14 +13,14 @@ std::string Validator::checkedInput(std::string message)
 			std::cout << message << std::endl;
 			std::getline(std::cin, input);
 			if (Validator::validateStringForEnglishLettersAndNumbersOnly(input))
-				throw StringKeyboardInputException(
+				throw std::exception(
 					"String contains incorrect symbols. You can type only latin letters, digits and space");
 		}
-		catch (const StringKeyboardInputException& ex)
+		catch (const std::exception& ex)
 		{
 			flag = true;
 			std::cin.clear();
-			std::cerr << ex.getMessage() << "\nTry again" << std::endl;
+			std::cerr << ex.what() << "\nTry again" << std::endl;
 			std::cin.ignore(INT_MAX, '\n');
 		}
 		catch (...)
@@ -45,14 +45,14 @@ std::string Validator::localizedCheck(std::string message)
 			std::cout << message << std::endl;
 			std::getline(std::cin, input);
 			if (Validator::validateStringForEnglishOrRussianLetters(input))
-				throw StringKeyboardInputException(
+				throw std::exception(
 					"String contains incorrect symbols. You can type only English or Russian letters");
 		}
-		catch (const StringKeyboardInputException& ex)
+		catch (const std::exception& ex)
 		{
 			flag = true;
 			std::cin.clear();
-			std::cerr << ex.getMessage() << "\nTry again" << std::endl;
+			std::cerr << ex.what() << "\nTry again" << std::endl;
 			std::cin.ignore(INT_MAX, '\n');
 		}
 		catch (...)

@@ -1,5 +1,3 @@
-#include "StringException.h"
-#include "NumberException.h"
 #include <regex>
 
 #pragma once
@@ -27,12 +25,12 @@ public:
 				if (std::cin.good())
 					std::cin.ignore(INT_MAX, '\n');
 				else
-					throw NumberException("Incorrect number");
+					throw std::exception("Incorrect number");
 			}
-			catch (NumberException ex) {
+			catch (std::exception ex) {
 				flag = true;
 				std::cin.clear();
-				std::cerr << ex.getMessage() << "\nTry again" << std::endl;
+				std::cerr << ex.what() << "\nTry again" << std::endl;
 				std::cin.ignore(INT_MAX, '\n');
 			}
 			catch (...)

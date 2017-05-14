@@ -65,7 +65,7 @@ void comp::Laptop::header()
 		<< std::endl;
 }
 
-void comp::Laptop::show()
+void comp::Laptop::show() const
 {
 	std::cout << std::setw(8) << this->manufactureYear << " | "
 		<< std::setw(8) << this->compCode << " | "

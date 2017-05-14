@@ -5,7 +5,6 @@ namespace comp {
 		public Portative
 	{
 	private:
-		friend class boost::serialization::access;
 		std::string vendor;
 		std::string model;
 	public:
@@ -32,7 +31,7 @@ namespace comp {
 		bool operator!=(const Laptop &);
 			
 		void header();
-		void show();
+		void show() const;
 
 		friend std::istream & operator>>(std::istream &, Laptop &);
 		friend std::fstream& operator<< (std::fstream&, Laptop&);
