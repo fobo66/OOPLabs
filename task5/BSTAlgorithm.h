@@ -20,7 +20,7 @@ namespace BST {
 		return first;
 	}
 	template<class Iterator, class T>
-	inline void Algorithm::filter(Iterator begin, Iterator end, std::function<bool, T> predicate)
+	inline void Algorithm::filter(Iterator begin, Iterator end, std::function<bool(T)> predicate)
 	{
 		for (Iterator i = begin; i != end; ++i)
 			if (predicate((*i).second))
