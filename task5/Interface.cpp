@@ -35,7 +35,7 @@ void Interface<T>::work(T & param)
 				std::cout << "Code cannot be 0" << std::endl;
 			break;
 		case MenuItem::FIND:
-			Validator::checkedNumericalInput(key, "Input key to find - computer's code:  ");
+			Validator::checkedNumericalInput(key, "Input query:  ");
 			iter = Algorithm::find(tree.begin(), tree.end(), key);
 			if ((*iter).first != 0)
 				std::cout << (*iter).second << std::endl;

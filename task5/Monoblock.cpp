@@ -48,12 +48,35 @@ bool comp::Monoblock::operator<=(const Monoblock & another)
 
 bool comp::Monoblock::operator==(const Monoblock & another)
 {
-	return this->displaySize == another.displaySize;
+	return this->manufactureYear == another.manufactureYear &&
+		this->operatingSystem == another.operatingSystem &&
+		this->compCode == another.compCode &&
+		this->displaySize == another.displaySize;
+}
+
+bool comp::Monoblock::operator==(std::string & val)
+{
+	return this->operatingSystem == val;
+}
+
+bool comp::Monoblock::operator==(int & val)
+{
+	return this->displaySize == val;
+}
+
+bool comp::Monoblock::operator!=(std::string & val)
+{
+	return !(this->operator==(val));
+}
+
+bool comp::Monoblock::operator!=(int & val)
+{
+	return !(this->operator==(val));
 }
 
 bool comp::Monoblock::operator!=(const Monoblock & another)
 {
-	return this->displaySize != another.displaySize;
+	return !(this->operator==(another));
 }
 
 void Monoblock::header()

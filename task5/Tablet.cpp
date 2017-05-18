@@ -60,12 +60,37 @@ bool comp::Tablet::operator>=(const Tablet & another)
 
 bool comp::Tablet::operator==(const Tablet & another)
 {
-	return this->weight == another.weight;
+	return this->manufactureYear == another.manufactureYear &&
+		this->operatingSystem == another.operatingSystem &&
+		this->compCode == another.compCode &&
+		this->weight == another.weight;
+}
+
+bool comp::Tablet::operator==(std::string & val)
+{
+	return this->operatingSystem == val;
+}
+
+bool comp::Tablet::operator==(int & val)
+{
+	return this->compCode == val ||
+		this->manufactureYear == val ||
+		this->weight == val;
 }
 
 bool comp::Tablet::operator!=(const Tablet & another)
 {
-	return this->weight != another.weight;
+	return !(this->operator==(another));
+}
+
+bool comp::Tablet::operator!=(std::string & val)
+{
+	return !(this->operator==(val));
+}
+
+bool comp::Tablet::operator!=(int & val)
+{
+	return !(this->operator==(val));
 }
 
 void Tablet::header()

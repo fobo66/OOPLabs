@@ -37,7 +37,11 @@ namespace comp {
 		bool operator>=(const Laptop &);
 		bool operator<=(const Laptop &);
 		bool operator==(const Laptop &);
+		bool operator==(std::string &);
+		bool operator==(int &);
 		bool operator!=(const Laptop &);
+		bool operator!=(std::string &);
+		bool operator!=(int &);
 			
 		void header();
 		void show();

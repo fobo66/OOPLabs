@@ -41,7 +41,11 @@ namespace comp {
 		bool operator>=(const Tablet &);
 		bool operator<=(const Tablet &);
 		bool operator==(const Tablet &);
+		bool operator==(std::string &);
+		bool operator==(int &);
 		bool operator!=(const Tablet &);
+		bool operator!=(std::string &);
+		bool operator!=(int &);
 
 		void header();
 		void show();

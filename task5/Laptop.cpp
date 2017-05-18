@@ -45,12 +45,41 @@ bool comp::Laptop::operator<=(const Laptop & another)
 
 bool comp::Laptop::operator==(const Laptop & another)
 {
-	return this->manufactureYear == another.manufactureYear;
+	return this->manufactureYear == another.manufactureYear &&
+		this->model == another.model &&
+		this->operatingSystem == another.operatingSystem &&
+		this->vendor == another.vendor &&
+		this->compCode == another.compCode &&
+		this->weight == another.weight;
+}
+
+bool comp::Laptop::operator==(std::string & val)
+{
+	return this->model == val ||
+		this->operatingSystem == val ||
+		this->vendor == val;
+}
+
+bool comp::Laptop::operator==(int & val)
+{
+	return this->compCode == val ||
+		   this->manufactureYear == val ||
+		   this->weight == val;
 }
 
 bool comp::Laptop::operator!=(const Laptop & another)
 {
-	return this->manufactureYear != another.manufactureYear;
+	return !(this->operator==(another));
+}
+
+bool comp::Laptop::operator!=(std::string &val)
+{
+	return !(this->operator==(val));
+}
+
+bool comp::Laptop::operator!=(int & val)
+{
+	return !(this->operator==(val));
 }
 
 void comp::Laptop::header()

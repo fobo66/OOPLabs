@@ -30,23 +30,38 @@ namespace BST {
 	{
 	private:
 		Node<K, T> * cursor;
+		Node<K, T> * rightMost;
 		friend class Tree<K, T>;
 		Node<K,T> * operator&();
 	public:
 		TreeIterator()
 		{
 			cursor = nullptr;
+			rightMost = nullptr;
 		};
 		TreeIterator(const Tree<K, T> & tree, int beginOrEnd = BEGIN_ITER)
 		{
 			if (beginOrEnd == BEGIN_ITER)
+			{
 				cursor = tree.min(tree._root);
+				rightMost = tree.max(tree._root);
+			}
 			else if (beginOrEnd == END_ITER)
+			{
 				cursor = nullptr;
+				rightMost = nullptr;
+			}
 		};
+
+		TreeIterator(const TreeIterator<K, T> &another)
+		{
+			this->cursor = another.cursor;
+			this->rightMost = another.rightMost;
+		}
 		std::pair<K, T> operator*();
 		bool operator==(TreeIterator&);
 		bool operator!=(TreeIterator&);
+		TreeIterator<K, T> operator=(const TreeIterator<K, T> &);
 		TreeIterator<K, T> operator++();
 		TreeIterator<K, T> operator++(int);
 		TreeIterator<K, T> operator+(int);
@@ -57,6 +72,7 @@ namespace BST {
 		~TreeIterator()
 		{
 			cursor = nullptr;
+			rightMost = nullptr;
 		};
 	};
 

@@ -37,6 +37,10 @@ namespace comp {
 		bool operator>=(const Monoblock &);
 		bool operator<=(const Monoblock &);
 		bool operator==(const Monoblock &);
+		bool operator==(std::string &);
+		bool operator==(int &);
+		bool operator!=(std::string &);
+		bool operator!=(int &);
 		bool operator!=(const Monoblock &);
 
 		void show();

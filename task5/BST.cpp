@@ -267,6 +267,17 @@ bool BST::TreeIterator<K, T>::operator!=(TreeIterator & another)
 }
 
 template<class K, class T>
+TreeIterator<K, T> BST::TreeIterator<K, T>::operator=(const TreeIterator<K, T> & another)
+{
+	if (this != &another)
+	{
+		this->cursor = another.cursor;
+		this->rightMost = another.rightMost;
+	}
+	return *this;
+}
+
+template<class K, class T>
 BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator++()
 {
 	if (cursor == nullptr)
@@ -313,9 +324,13 @@ template<class K, class T>
 BST::TreeIterator<K, T> BST::TreeIterator<K, T>::operator--()
 {
 	if (cursor == nullptr)
-		cursor = collection->max(collection->_root);
+		cursor = rightMost;
 	else if (cursor->left != nullptr)
-		cursor = collection->max(cursor->left);
+	{
+		cursor = cursor->left;
+		while (cursor->right != nullptr)
+			cursor = cursor->right;
+	}
 	else
 	{
 		Node<K, T> * tempNode;
