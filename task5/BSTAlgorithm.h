@@ -8,7 +8,7 @@ namespace BST {
 		static Iterator find(Iterator begin, Iterator end, T& item);
 
 		template<class Iterator, class T>
-		static void filter(Iterator begin, Iterator end, std::function<T> predicate);
+		static void filter(Iterator begin, Iterator end, std::function<bool(T)> predicate);
 		~Algorithm() {};
 	};
 

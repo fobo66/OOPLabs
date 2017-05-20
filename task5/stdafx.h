@@ -1,11 +1,8 @@
-// stdafx.h: включаемый файл дл€ стандартных системных включаемых файлов
-// или включаемых файлов дл€ конкретного проекта, которые часто используютс€, но
-// не часто измен€ютс€
-//
-
 #pragma once
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include "targetver.h"
+#endif
 
 #include <iostream>
 #include <fstream>
@@ -20,6 +17,3 @@
 #include <boost\archive\text_oarchive.hpp>
 #include <boost\archive\text_iarchive.hpp>
 #include <boost\serialization\base_object.hpp>
-
-
-// TODO: ”становите здесь ссылки на дополнительные заголовки, требующиес€ дл€ программы
