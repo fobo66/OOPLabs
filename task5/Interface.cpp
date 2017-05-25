@@ -14,6 +14,10 @@ void Interface<T>::work(T & param)
 	BST::Tree<int, T> tree;
 	BST::TreeIterator<int, T> iter;
 	std::string filename = typeid(T).name();
+	int year = 2010;
+	std::function<bool (T)> filterPredicate = [&](T item) {
+		return item.getManufactureYear() > year;
+	};
 	filename = filename.substr(12, filename.length() - 12);
 	file::TextFile<BST::Tree<int, T>> file(filename + ".txt");
 	file::BinaryFile<std::vector<T>> binfile(filename + ".bin");
@@ -43,9 +47,28 @@ void Interface<T>::work(T & param)
 				std::cout << "Not found!" << std::endl;
 			break;
 		case MenuItem::VIEW:
-			if (!tree.empty())
-				param.header();
-			std::cout << tree << std::endl;
+			if (!tree.empty()) {
+				Validator::checkedNumericalInput(choice, "Output all data or filter it by year to show only newest? 0 - all, 1 - filter:  ");
+				switch (choice)
+				{
+				case 0:
+					param.header();
+					std::cout << tree << std::endl;
+					break;
+				case 1:
+					do
+						Validator::checkedNumericalInput(year, "Input year:  ");
+					while (year < 1950 || year > 2017);
+					param.header();
+					Algorithm::filter(tree.begin(), tree.end(), filterPredicate);
+					break;
+				default:
+					std::cout << "Wrong input received, won\'t output anything" << std::endl;
+					break;
+				}
+			}
+			else
+				std::cout << "Tree is empty!" << std::endl;
 			break;
 		case MenuItem::DELETE:
 			Validator::checkedNumericalInput(key, "Input key to delete - computer's code:  ");
