@@ -53,7 +53,7 @@ void Interface<T>::work(T & param)
 				{
 				case 0:
 					param.header();
-					std::cout << tree << std::endl;
+					Algorithm::show(tree.begin(), tree.end());
 					break;
 				case 1:
 					do

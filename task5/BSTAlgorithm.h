@@ -9,6 +9,9 @@ namespace BST {
 
 		template<class Iterator, class T>
 		static void filter(Iterator begin, Iterator end, std::function<bool(T)> predicate);
+
+		template<class Iterator>
+		static void show(Iterator begin, Iterator end);
 		~Algorithm() {};
 	};
 
@@ -25,6 +28,12 @@ namespace BST {
 		for (Iterator i = begin; i != end; ++i)
 			if (predicate((*i).second))
 				std::cout << (*i).second << std::endl;
+	}
+	template<class Iterator>
+	inline void Algorithm::show(Iterator begin, Iterator end)
+	{
+		for (; begin != end; ++begin)
+			std::cout << (*begin).second << std::endl;
 	}
 }
 
