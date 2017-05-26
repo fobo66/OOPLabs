@@ -6,7 +6,7 @@
 #include "BST.cpp"
 #include "MenuItem.h"
 
-const std::string DEFAULT_FILE_NAME = "tree.txt";
+const int DEFAULT_YEAR = 2010;
 
 template<class T>
 void Interface<T>::work(T & param)
@@ -14,7 +14,7 @@ void Interface<T>::work(T & param)
 	BST::Tree<int, T> tree;
 	BST::TreeIterator<int, T> iter;
 	std::string filename = typeid(T).name();
-	int year = 2010;
+	int year = DEFAULT_YEAR;
 	std::function<bool (T)> filterPredicate = [&](T item) {
 		return item.getManufactureYear() > year;
 	};
