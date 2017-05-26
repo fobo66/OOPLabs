@@ -77,6 +77,30 @@ namespace BST {
 	};
 
 	template<class K, class T>
+	class TreeReverseIterator {
+	private:
+		TreeIterator<K, T> iter;
+	public:
+		typedef TreeReverseIterator<K, T> self;
+		TreeReverseIterator() {};
+		TreeReverseIterator(const TreeIterator<K, T> & iter)
+		{
+			this->iter = iter;
+		};
+
+		std::pair<K, T> operator*();
+		bool operator==(self&);
+		bool operator!=(self&);
+		self operator=(const self &);
+		self operator++();
+		self operator++(int);
+		self operator--();
+		self operator--(int);
+
+		~TreeReverseIterator() {};
+	};
+
+	template<class K, class T>
 	class Tree
 	{
 	private:
@@ -178,6 +202,8 @@ namespace BST {
 		// Итераторы
 		TreeIterator<K, T> begin() const;
 		TreeIterator<K, T> end() const;
+		TreeReverseIterator<K, T> rbegin() const;
+		TreeReverseIterator<K, T> rend() const;
 
 		bool empty();
 

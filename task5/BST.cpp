@@ -251,6 +251,16 @@ TreeIterator<K, T> BST::Tree<K, T>::end() const
 {
 	return TreeIterator<K, T>(*this, END_ITER);
 }
+template<class K, class T>
+TreeReverseIterator<K, T> BST::Tree<K, T>::rbegin() const
+{
+	return TreeReverseIterator<K, T>(end());
+}
+template<class K, class T>
+TreeReverseIterator<K, T> BST::Tree<K, T>::rend() const
+{
+	return TreeReverseIterator<K, T>(begin());
+}
 ;
 template<class K, class T>
 bool BST::TreeIterator<K, T>::operator==(TreeIterator & another)
@@ -375,4 +385,60 @@ std::pair<K, T> BST::TreeIterator<K, T>::operator*()
 	if (cursor != nullptr)
 		return std::pair<K, T>(cursor->id, cursor->key);
 	return std::pair<K, T>(0, T());
+}
+
+template<class K, class T>
+std::pair<K, T> BST::TreeReverseIterator<K, T>::operator*()
+{
+	return *iter;
+}
+
+template<class K, class T>
+bool BST::TreeReverseIterator<K, T>::operator==(self & another)
+{
+	return this->iter == another.iter;
+}
+
+template<class K, class T>
+bool BST::TreeReverseIterator<K, T>::operator!=(self & another)
+{
+	return !(this == another);
+}
+
+template<class K, class T>
+TreeReverseIterator<K, T> BST::TreeReverseIterator<K, T>::operator=(const self & other)
+{
+	if (this != &other)
+		this->iter = other.iter;
+	return *this;
+}
+
+template<class K, class T>
+TreeReverseIterator<K, T> BST::TreeReverseIterator<K, T>::operator++()
+{
+	--iter;
+	return *this;
+}
+
+template<class K, class T>
+TreeReverseIterator<K, T> BST::TreeReverseIterator<K, T>::operator++(int)
+{
+	self tmp = *this;
+	--iter;
+	return tmp;
+}
+
+template<class K, class T>
+TreeReverseIterator<K, T> BST::TreeReverseIterator<K, T>::operator--()
+{
+	++iter;
+	return *this;
+}
+
+template<class K, class T>
+TreeReverseIterator<K, T> BST::TreeReverseIterator<K, T>::operator--(int)
+{
+	self tmp = *this;
+	++iter;
+	return tmp;
 }
